@@ -115,8 +115,7 @@ export class ProductsService {
         );
       }
 
-
-      await queryRunner.manager.save(product); 
+      await queryRunner.manager.save(product);
       await queryRunner.commitTransaction(); // Save DB
       await queryRunner.release(); // End Connection
 
@@ -143,5 +142,14 @@ export class ProductsService {
     throw new InternalServerErrorException(
       'Unexpected error, check server logs',
     );
+  }
+
+  async deleteAllProduct() {
+    const query = this.productRepository.createQueryBuilder('product');
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleDBExeptions(error);
+    }
   }
 }
