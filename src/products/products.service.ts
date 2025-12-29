@@ -12,7 +12,6 @@ import { DataSource, Repository } from 'typeorm';
 import { Product, ProductImage } from './entities';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { validate as isUUID } from 'uuid';
-import { url } from 'inspector';
 
 @Injectable()
 export class ProductsService {

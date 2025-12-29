@@ -18,7 +18,7 @@ import { ConfigService } from '@nestjs/config';
 export class FilesController {
   constructor(
     private readonly filesService: FilesService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {}
 
   @Get('product/:imageName')

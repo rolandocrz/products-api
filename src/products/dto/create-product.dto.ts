@@ -42,10 +42,10 @@ export class CreateProductDto {
   @IsOptional()
   @IsString({ each: true })
   @IsArray()
-  tags?: string[]
+  tags?: string[];
 
   @IsOptional()
   @IsString({ each: true })
   @IsArray()
-  images?: string[]
+  images?: string[];
 }
