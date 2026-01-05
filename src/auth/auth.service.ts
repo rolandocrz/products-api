@@ -31,7 +31,7 @@ export class AuthService {
       const { password: _, ...user } = savedUser;
       return {
         ...user,
-        token: this.getJwtToken({ email: user.email }),
+        token: this.getJwtToken({ uuid: user.id, email: user.email }),
       };
     } catch (error) {
       this.handleDBError(error);
@@ -42,7 +42,7 @@ export class AuthService {
     const { email, password } = loginUserDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true },
+      select: { id: true, email: true, password: true },
     });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
@@ -52,7 +52,7 @@ export class AuthService {
     const { password: _, ...rest } = user;
     return {
       ...rest,
-      token: this.getJwtToken({ email: user.email }),
+      token: this.getJwtToken({ uuid: user.id, email: user.email }),
     };
   }
 
