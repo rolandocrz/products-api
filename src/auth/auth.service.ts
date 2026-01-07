@@ -31,7 +31,7 @@ export class AuthService {
       const { password: _, ...user } = savedUser;
       return {
         ...user,
-        token: this.getJwtToken({ uuid: user.id, email: user.email }),
+        token: this.getJwtToken({ uuid: user.id }),
       };
     } catch (error) {
       this.handleDBError(error);
@@ -52,7 +52,7 @@ export class AuthService {
     const { password: _, ...rest } = user;
     return {
       ...rest,
-      token: this.getJwtToken({ uuid: user.id, email: user.email }),
+      token: this.getJwtToken({ uuid: user.id }),
     };
   }
 

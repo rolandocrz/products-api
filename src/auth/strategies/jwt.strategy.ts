@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -22,15 +21,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    const { email } = payload;
-    const user = await this.userRepository.findOneBy({ email });
+    const { uuid } = payload;
+    const user = await this.userRepository.findOneBy({ id: uuid });
 
-    if (!user) {
-      throw new UnauthorizedException(`Token not valid`);
-    }
-
-    if (!user.isActive) {
-      throw new UnauthorizedException(`user in inactive`);
+    if (!user || !user.isActive) {
+      throw new UnauthorizedException('Token not valid');
     }
 
     return user;
