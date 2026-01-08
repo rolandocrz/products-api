@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req, SetMetadata } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser, RawHeaders } from './decorators/';
 import { User } from './entities/user.entity';
+import { UserRoleGuard } from './guards/user-role/user-role.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +25,7 @@ export class AuthController {
   testingPrivateRoute(
     // @Req() request: Express.Request,
     @GetUser() user: User,
-    @GetUser('email') userEmail: string,
+    // @GetUser('email') userEmail: string,
     @RawHeaders() rawHeader: string[],
   ) {
     // console.log({ user });
@@ -32,8 +33,19 @@ export class AuthController {
       ok: true,
       message: `Succesfull`,
       user,
-      userEmail,
+      // userEmail,
       rawHeader,
+    };
+  }
+
+  // @SetMetadata('roles', ['admin', 'super-user'])
+  @Get('private2')
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  testingPrivateRout2(@GetUser() user: User) {
+    return {
+      ok: true,
+      message: `Succesfull`,
+      user,
     };
   }
 }
